@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/img/favicon.ico">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<div class="background">
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <img src="/img/drink.png" class="img-d">
+          <a class="navbar-brand" href="javascript:;">KEKE Drinks</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="javascript:;" id="drinks">Drinks</a></li>
+            <li><a href="javascript:;" id="desert">Desert</a></li>
+            <li><a href="javascript:;">About us</a></li>
+            <li><a href="javascript:;">Card</a></li>
+          </ul>
+           <ul class="nav navbar-nav navbar-right">
+            {{ if user }}             
+            <li><a href="/cart"><img src="/img/cart.png"></a></li>        
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/my.png"><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-current-user">登录用户:{{ user.tel }}</li>
+                <li role="separator" class="divider"></li>         
+                <li><a href="/logout">退出</a></li>            
+              </ul>               
+            </li>
+            {{ else }}
+            <a class="btn btn-primary navbar-btn" href="/login">Sign in</a>
+            <a class="btn btn-success navbar-btn" href="/register">Sign up</a>
+            {{ /if }}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbot">
+      </h3>Marketing stuff!</h3>
+      <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+    </div>
+    <div class="row">
+      <ul id="food"></ul>
+    </div>
+    <ul class="pagination pagination-sm">
+      <li><a href="#">&laquo;</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
+  </div>
+</div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>

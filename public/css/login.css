@@ -1,0 +1,33 @@
+.background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: url(../img/bg1.jpg) center no-repeat;
+  background-size: 100% 100%;
+}
+.main {
+  width: 350px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.main form {
+  padding: 30px;
+  margin-bottom: 25px;
+  border: 1px solid #263e48;
+  border-radius: 25px;
+  background-color: rgba(44, 73, 39, 0.3);
+}
+button{
+  margin-top: 30px;
+}
+.main .message {
+  padding: 10px;
+  padding-bottom: 0;
+  border: 1px solid #263e48;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 17px;
+  background-color: rgba(44, 73, 39, 0.3);
+}
