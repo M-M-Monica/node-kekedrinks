@@ -41,9 +41,11 @@
 }
 .row ul {
   list-style: none;
+  padding: 0;
 }
 .row .list{
   height: 300px;
+  position: relative;
   border: 1px solid #edb638;
   border-radius: 20px;
   cursor: pointer;
@@ -54,15 +56,13 @@
   transform: translate(-50%,-40%);
 }
 .list .detail{
-  width: 90%;
-  height: 130px;
-  padding: 10px 25px 5px 10px;
+  width: 100%;
   position: absolute;
   bottom: 20%;
   text-align: center;
   font-size: 15px;
 }
-.list .add{
+#add{
   position: absolute;
   bottom: 5%;
   left: 50%;

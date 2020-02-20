@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const md5 = require('blueimp-md5')
-const { User, Food } = require('./db.js')
+let express = require('express')
+let router = express.Router()
+let md5 = require('blueimp-md5')
+let { User, Food } = require('./db.js')
 
 router.get('/', function (req, res) {
   res.render('index.html', {
@@ -14,7 +14,7 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', function (req, res, next) {
-  const body = req.body
+  let body = req.body
   User.findOne({
     tel: body.tel,
     password: md5(md5(body.password))
@@ -41,7 +41,7 @@ router.get('/register', function (req, res, next) {
 })
 
 router.post('/register', function (req, res, next) {
-  const body = req.body
+  let body = req.body
   User.findOne({
     tel: body.tel
   }, function (err, data) {
@@ -93,5 +93,17 @@ router.get('/desert', function (req, res) {
     }
   });   
 })
+
+// router.post('/cart', (req, res)=> {
+//   let info = req.body
+//   // console.log(req.session.user)
+//   User.findOneAndUpdate({user: req.session.user}, {cart: info},(err, data)=>{  
+//     if(err){
+//       console.log(err);
+//     }else{
+//       console.log(result);
+//     }
+//   })
+// })
 
 module.exports = router

@@ -8,45 +8,50 @@ $(function(){
       success: function (data) {
         var html = '';
         for(var i = 0; i < data.length; i++){
-          html += '<li><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button class="add">Add to cart</button></div></div></li>';
+          html += '<li><p hidden>'+data[i]._id+'</p><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button id="add">Add to cart</button></div></div></li>';
+        }
+        $('#food').html(html);
+        $('#food').find('li').each(function(index,element){
+          var bt = $(element).find('button');
+          var id = $(element).find('p:eq(0)').text();
+          bt.click(function(){
+            addToCart(id);
+          });
+          $('#desert').click(function () {
+            clickFood('/desert');
+          })
+          $('#drinks').click(function () {
+            clickFood('/drinks');
+          })
+        });
+      }
+    })
+	}
+	function clickFood(url){
+    $.ajax({
+      url: url,
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        var html = '';
+        for(var i = 0; i < data.length; i++){
+          html += '<li><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button id="add">Add to cart</button></div></div></li>';
         }
         $('#food').html(html);
       }
     })
-    clickDrinks();
-    clickDesert();
-	}
-	function clickDrinks(){
-		$('#drinks').click(function () {
-      $.ajax({
-        url: '/drinks',
-        type: 'get',
-        dataType: 'json',
-        success: function (data) {
-          var html = '';
-          for(var i = 0; i < data.length; i++){
-            html += '<li><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button class="add">Add to cart</button></div></div></li>';
-          }
-          $('#food').html(html);
-        }
-      })
-    })
   }
-  function clickDesert(){
-    $('#desert').click(function () {
-      $.ajax({
-        url: '/desert',
-        type: 'get',
-        dataType: 'json',
-        success: function (data) {
-          var html = '';
-          for(var i = 0; i < data.length; i++){
-            html += '<li><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button class="add">Add to cart</button></div></div></li>';
-          }
-          $('#food').html(html);
-        }
-      })
-    })
-	}
+  // function addToCart(id){
+  //   console.log(id)
+  //   $.ajax({
+  //     url: '/cart',
+  //     type: 'post',
+  //     data: id,
+  //     content-Type: 'application/json',
+  //     success: function () {
+  //       console.log('success')
+  //     }
+  //   })
+  // }
 	initList();
 });	
