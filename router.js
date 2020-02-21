@@ -1,7 +1,7 @@
 let express = require('express')
 let router = express.Router()
 let md5 = require('blueimp-md5')
-let { User, Food } = require('./db.js')
+let { User, Food, Good } = require('./db.js')
 
 router.get('/', function (req, res) {
   res.render('index.html', {
@@ -55,7 +55,8 @@ router.post('/register', function (req, res, next) {
       })
       return res.send(`手机号或者密码已存在，请重试`)
     }
-    body.password = md5(body.password)
+    body.password = md5(md5(body.password))
+    //console.log(body);
     new User(body).save(function (err, user) {
       if (err) {
         return next(err)
@@ -94,16 +95,42 @@ router.get('/desert', function (req, res) {
   });   
 })
 
-// router.post('/cart', (req, res)=> {
-//   let info = req.body
-//   // console.log(req.session.user)
-//   User.findOneAndUpdate({user: req.session.user}, {cart: info},(err, data)=>{  
-//     if(err){
-//       console.log(err);
-//     }else{
-//       console.log(result);
-//     }
-//   })
-// })
+router.post('/cart', (req, res)=> {
+  let info = req.body
+  let id = Object.keys(info)[0]
+  //let data = [id]
+  //console.log(data)
+  //console.log(id)
+  // User.find({tel: '18813738689'}, function(err, result){
+  //   if(err){
+  //     console.log(err);
+  //   }else{
+  //     res.send(id);
+      
+  //   }
+  // })
+  var aaron = new User({ _id: 0, name: 'Aaron' });
+  new Good({
+    _id: id,
+    _user: aaron._id 
+  }).save(function(err, data){
+    if(err){console.log(err);}else{console.log(data)}
+  });
+  User.
+    findOne({ tel: '1234567' }).
+    populate({ path: 'goods' }).
+    exec(function(err,data){
+      console.log(data);
+    });
+})
 
+router.get('/user', (req, res)=> {
+  User.find({tel: '1234567'}, function(err, result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result)
+    }
+  })
+})
 module.exports = router

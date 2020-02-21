@@ -16,13 +16,13 @@ $(function(){
           var id = $(element).find('p:eq(0)').text();
           bt.click(function(){
             addToCart(id);
-          });
-          $('#desert').click(function () {
-            clickFood('/desert');
-          })
-          $('#drinks').click(function () {
-            clickFood('/drinks');
-          })
+          });   
+        });
+        $('#drinks').click(function () {
+          clickFood('/drinks');
+        });
+        $('#desert').click(function () {
+          clickFood('/desert');
         });
       }
     })
@@ -41,17 +41,17 @@ $(function(){
       }
     })
   }
-  // function addToCart(id){
-  //   console.log(id)
-  //   $.ajax({
-  //     url: '/cart',
-  //     type: 'post',
-  //     data: id,
-  //     content-Type: 'application/json',
-  //     success: function () {
-  //       console.log('success')
-  //     }
-  //   })
-  // }
+  function addToCart(id){
+    console.log(id)
+    $.ajax({
+      url: '/cart',
+      type: 'post',
+      data: id,
+      dataType: 'json',
+      success: function () {
+        console.log('success')
+      }
+    })
+  }
 	initList();
 });	
