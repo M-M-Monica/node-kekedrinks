@@ -75,24 +75,18 @@ router.get('/logout', function (req, res) {
   res.redirect('/login')
 })
 
-router.get('/drinks', function (req, res) {
-  Food.find({category: 'drinks'}, (err,result)=>{
+router.get('/:food/:page', function (req, res) {
+  let page = req.params.page;
+  let skip = (page-1)*4;
+  let food = [req.params.food];
+  Food.find({category: food}).skip(skip).limit(4)
+  .exec((err,result)=>{
     if(err){
       console.log(err);
     }else{
       res.send(result)
-    }
-  });   
-})
-
-router.get('/desert', function (req, res) {
-  Food.find({category: 'desert'}, (err,result)=>{
-    if(err){
-      console.log(err);
-    }else{
-      res.send(result)
-    }
-  });   
+    } 
+  })   
 })
 
 router.post('/cart', (req, res)=> {

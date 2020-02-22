@@ -2,7 +2,7 @@ $(function(){
 	//初始化数据列表
 	function initList(){
 		$.ajax({
-      url: '/drinks',
+      url: '/drinks/1',
       type: 'get',
       dataType: 'json',
       success: function (data) {
@@ -18,18 +18,34 @@ $(function(){
             addToCart(id);
           });   
         });
-        $('#drinks').click(function () {
-          clickFood('/drinks');
+        var page = 1;
+        //var url = '/drinks/';
+        $('#drinks').click(function(url){
+          clickFood('/drinks/',page); 
+          clickPage('/drinks/',page)         
         });
-        $('#desert').click(function () {
-          clickFood('/desert');
+        $('#desert').click(function(){
+          clickFood('/desert/',page);  
+          clickPage('/desert/',page)           
         });
+        // $('#p_1').click(function(){
+        //   if (page>1) {
+        //     page--;
+        //     console.log(page)
+        //     clickFood('/drinks/',page);
+        //   }
+        // });
+        // $('#p_2').click(function(){
+        //   page++;
+        //   console.log(page)
+        //   clickFood('/desert/',page);
+        // });
       }
     })
 	}
-	function clickFood(url){
+	function clickFood(url,page){
     $.ajax({
-      url: url,
+      url: url + page,
       type: 'get',
       dataType: 'json',
       success: function (data) {
@@ -40,6 +56,20 @@ $(function(){
         $('#food').html(html);
       }
     })
+  }
+  function clickPage(url,page){
+    //var page = 1;
+    $('#p_1').click(function(){
+      if (page>1) {
+        page--;
+        clickFood(url,page);
+      }
+    }); 
+    $('#p_2').click(function(){
+      page++;
+      console.log(page)
+      clickFood(url,page);
+    }); 
   }
   function addToCart(id){
     console.log(id)

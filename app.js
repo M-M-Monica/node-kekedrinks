@@ -19,6 +19,6 @@ app.use(session({
 
 app.use(router)
 
-app.listen(5000, function () {
-  console.log('5000running')
+app.listen(3000, function () {
+  console.log('3000running')
 })
