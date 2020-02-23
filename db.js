@@ -11,34 +11,38 @@ mongoose.connect('mongodb://localhost/keke', {
 const userSchema = new Schema({
   tel: {
     type: Number,
-    //required: true
+    required: true
   },
   password: {
     type: String,
-    //required: true
+    required: true
+  },
+  address: {
+    type: Array
   },
   goods: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Good'
+    //id: String,
+    name: String,
+    img: String,
+    category: String,
+    price: String
+    // type: Schema.Types.ObjectId,
+    // ref: 'Good'
   }]
 })
 
-const goodSchema = new Schema({
-  _id: {
-    type: String,
-    //required: true
-  },
-  _user: {
-    type: String,
-    ref: 'User'
-  },
-  price: {
-    type: Number,
-    //required: true
-  }
-})
+// const goodSchema = new Schema({
+//   productId: String,
+//   productName: String,
+
+//   price: {
+//     type: Number,
+//     //required: true
+//   }
+// })
 
 const foodSchema = new Schema({
+  //id: String,
   name: {
     type: String,
     required: true
@@ -59,7 +63,7 @@ const foodSchema = new Schema({
 
 const User = mongoose.model('User', userSchema);
 const Food = mongoose.model('Food', foodSchema);
-const Good = mongoose.model('Good', goodSchema);
+//const Good = mongoose.model('Good', goodSchema);
 // const foodList = [
 //   {
 //     "name": "巧克力奶茶",
@@ -232,5 +236,5 @@ const Good = mongoose.model('Good', goodSchema);
 module.exports = {
   User,
   Food,
-  Good
+  //Good
 }

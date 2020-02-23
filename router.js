@@ -1,8 +1,8 @@
 let express = require('express')
 let router = express.Router()
 let md5 = require('blueimp-md5')
-let { User, Food, Good } = require('./db.js')
-
+let { User, Food } = require('./db.js')
+//Good
 router.get('/', function (req, res) {
   res.render('index.html', {
     user: req.session.user 
@@ -75,11 +75,25 @@ router.get('/logout', function (req, res) {
   res.redirect('/login')
 })
 
-router.get('/:food/:page', function (req, res) {
+router.get('/drinks/:page', function (req, res) {
   let page = req.params.page;
   let skip = (page-1)*4;
-  let food = [req.params.food];
-  Food.find({category: food}).skip(skip).limit(4)
+  //let food = [req.params.food];
+  Food.find({category: 'drinks'}).skip(skip).limit(4)
+  .exec((err,result)=>{
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result)
+    } 
+  })   
+})
+
+router.get('/desert/:page', function (req, res) {
+  let page = req.params.page;
+  let skip = (page-1)*4;
+  //let food = [req.params.food];
+  Food.find({category: 'desert'}).skip(skip).limit(4)
   .exec((err,result)=>{
     if(err){
       console.log(err);
@@ -92,38 +106,37 @@ router.get('/:food/:page', function (req, res) {
 router.post('/cart', (req, res)=> {
   let info = req.body
   let id = Object.keys(info)[0]
-  //let data = [id]
-  //console.log(data)
-  //console.log(id)
-  // User.find({tel: '18813738689'}, function(err, result){
-  //   if(err){
-  //     console.log(err);
-  //   }else{
-  //     res.send(id);
-      
-  //   }
-  // })
-  var aaron = new User({ _id: 0, name: 'Aaron' });
-  new Good({
-    _id: id,
-    _user: aaron._id 
-  }).save(function(err, data){
-    if(err){console.log(err);}else{console.log(data)}
-  });
-  User.
-    findOne({ tel: '1234567' }).
-    populate({ path: 'goods' }).
-    exec(function(err,data){
-      console.log(data);
-    });
-})
-
-router.get('/user', (req, res)=> {
-  User.find({tel: '1234567'}, function(err, result){
+  User.findOne({tel: req.session.user.tel}, function(err, result){
     if(err){
       console.log(err);
     }else{
-      res.send(result)
+      if (result) {
+        Food.findOne({_id: id}, function(err, doc){
+          if(err){
+            console.log(err);
+          }else{
+            if (doc) {
+              console.log(doc);
+              result.goods.push(doc);
+              result.save();
+            }
+            res.status(200).json({
+              err_code: 0,
+              message: 'OK'
+            })
+          }
+        })
+      }
+    }
+  })
+})
+
+router.get('/cart', (req, res)=> {
+  User.findOne({tel: req.session.user.tel}, function(err, result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send(result.goods)
     }
   })
 })

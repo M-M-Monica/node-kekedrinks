@@ -26,7 +26,7 @@
           </ul>
            <ul class="nav navbar-nav navbar-right">
             {{ if user }}             
-            <li><a href="/cart"><img src="/img/cart.png"></a></li>        
+            <li><a href="javascript:;" id="cart"><img src="/img/cart.png"></a></li>        
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/my.png"><span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -43,18 +43,15 @@
         </div>
       </div>
     </nav>
-    <!-- <div class="jumbot">
-      </h3>Marketing stuff!</h3>
-      <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-    </div> -->
-    <div class="row">
+    <div id="rowList" ="row">
       <ul id="food"></ul>
       <ul class="pagination pagination-sm">
         <li><a href="javascript:;" id="p_1">&laquo;</a></li>
-        <!-- <li><a href="javascript:;" id="p_1">1</a></li>
-        <li><a href="javascript:;" id="p_2">2</a></li> -->
         <li><a href="javascript:;" id="p_2">&raquo;</a></li>
       </ul>
+    </div>
+    <div id="cartList">
+      <ul></ul>
     </div>
   </div>
 </div>
