@@ -25,34 +25,33 @@
             <li><a href="javascript:;">Card</a></li>
           </ul>
            <ul class="nav navbar-nav navbar-right">
-            {{ if user }}             
-            <li><a href="javascript:;" id="cart"><img src="/img/cart.png"></a></li>        
+            
+                        
+            <li><a href="javascript:;" id="cart"><img src="/img/cart.png"></a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/my.png"><span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li class="dropdown-current-user">登录用户:{{ user.tel }}</li>
+                <li class="dropdown-current-user">登录用户:188</li>
                 <li role="separator" class="divider"></li>         
                 <li><a href="/logout">退出</a></li>            
               </ul>               
             </li>
-            {{ else }}
-            <a class="btn btn-primary navbar-btn" href="/login">Sign in</a>
-            <a class="btn btn-success navbar-btn" href="/register">Sign up</a>
-            {{ /if }}
           </ul>
         </div>
       </div>
     </nav>
-    <div id="rowList" ="row">
-      <ul id="food"></ul>
-      <ul class="pagination pagination-sm">
-        <li><a href="javascript:;" id="p_1">&laquo;</a></li>
-        <li><a href="javascript:;" id="p_2">&raquo;</a></li>
-      </ul>
-    </div>
-    <div id="cartList">
-      <ul></ul>
-    </div>
+    <section>
+      <div id="rowList" class="row">
+        <ul id="food"></ul>
+        <ul class="pagination pagination-sm">
+          <li><a href="javascript:;" id="p_1">&laquo;</a></li>
+          <li><a href="javascript:;" id="p_2">&raquo;</a></li>
+        </ul>
+      </div>
+      <div id="cartList">
+        <ul></ul>
+      </div>
+    </section>  
   </div>
 </div>
 <script src="/js/jquery.js"></script>

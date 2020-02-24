@@ -2,7 +2,7 @@ let express = require('express')
 let router = express.Router()
 let md5 = require('blueimp-md5')
 let { User, Food } = require('./db.js')
-//Good
+
 router.get('/', function (req, res) {
   res.render('index.html', {
     user: req.session.user 
@@ -75,25 +75,11 @@ router.get('/logout', function (req, res) {
   res.redirect('/login')
 })
 
-router.get('/drinks/:page', function (req, res) {
+router.get('/:food/:page', function (req, res) {
   let page = req.params.page;
   let skip = (page-1)*4;
-  //let food = [req.params.food];
-  Food.find({category: 'drinks'}).skip(skip).limit(4)
-  .exec((err,result)=>{
-    if(err){
-      console.log(err);
-    }else{
-      res.send(result)
-    } 
-  })   
-})
-
-router.get('/desert/:page', function (req, res) {
-  let page = req.params.page;
-  let skip = (page-1)*4;
-  //let food = [req.params.food];
-  Food.find({category: 'desert'}).skip(skip).limit(4)
+  let food = [req.params.food];
+  Food.find({category: food}).skip(skip).limit(4)
   .exec((err,result)=>{
     if(err){
       console.log(err);
@@ -106,33 +92,45 @@ router.get('/desert/:page', function (req, res) {
 router.post('/cart', (req, res)=> {
   let info = req.body
   let id = Object.keys(info)[0]
-  User.findOne({tel: req.session.user.tel}, function(err, result){
+  //req.session.user.tel
+  User.findOne({tel: '18813738689'}, function(err, result){
     if(err){
       console.log(err);
     }else{
-      if (result) {
-        Food.findOne({_id: id}, function(err, doc){
-          if(err){
-            console.log(err);
-          }else{
-            if (doc) {
-              console.log(doc);
-              result.goods.push(doc);
-              result.save();
-            }
-            res.status(200).json({
-              err_code: 0,
-              message: 'OK'
-            })
+      //if (result) {
+        let goodsItem = '';
+        result.goods.forEach((item)=>{
+          if (item._id == id) {
+            goodsItem = item;
+            item.num++;
           }
-        })
-      }
+        });
+        if (goodsItem) {
+          result.save();
+        }else{
+          Food.findOne({_id: id}, function(err, doc){
+            if(err){
+              console.log(err);
+            }else{
+              if (doc) {
+                //doc.num = 1;
+                result.goods.push(doc);
+                result.save();
+              }
+              res.status(200).json({
+                err_code: 0,
+                message: 'OK'
+              })
+            }
+          })
+        }
+      //}
     }
   })
 })
 
 router.get('/cart', (req, res)=> {
-  User.findOne({tel: req.session.user.tel}, function(err, result){
+  User.findOne({tel: '18813738689'}, function(err, result){
     if(err){
       console.log(err);
     }else{
@@ -140,4 +138,26 @@ router.get('/cart', (req, res)=> {
     }
   })
 })
+
+router.delete('/cart/:id', (req, res)=> {
+  let id = req.params.id;
+  let data = [id];
+  //console.log(data)
+  User.updateOne({
+    tel: '18813738689'
+  }, {
+    $pull:{
+      'goods':{
+        '_id': data
+      }
+    }
+  },function(err, result){
+    if(err){
+      console.log(err);
+    }else{
+      res.send({flag:1});
+    }
+  })
+})
+
 module.exports = router
