@@ -14,6 +14,12 @@
   border-radius: 30px;
   background-color: #ffffffe6;
 }
+.container>img{
+  height: 500px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
 /*标题栏*/
 .navbar {
@@ -127,7 +133,9 @@ section{
   line-height: 40px;
   color: #ff0000;
 }
-#cartList ul li button{
+#cartList ul li .bt{
+  width: 25px;
+  height: 25px;
   position: absolute;
   top: 50%;
   right: 5%;
@@ -141,7 +149,7 @@ section{
   left: 15%;
   line-height: 50px;
 }
-#cartList #sum a{
+#cartList #sum button{
   position: absolute;
   right: 12%;
 }

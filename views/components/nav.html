@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <img src="/img/drink.png" class="img-d">
+      <a class="navbar-brand" href="javascript:;">KEKE Drinks</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="javascript:;" id="drinks">Drinks</a></li>
+        <li><a href="javascript:;" id="desert">Desert</a></li>
+        <li><a href="javascript:;">About us</a></li>
+        <li><a href="javascript:;">Card</a></li>
+      </ul>
+       <ul class="nav navbar-nav navbar-right">
+        {{ if user }}             
+        <li><a href="javascript:;" id="cart"><img src="/img/cart.png"></a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/my.png"><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-current-user">登录用户:{{ user.tel }}</li>
+            <li role="separator" class="divider"></li>         
+            <li><a href="/logout">退出</a></li>            
+          </ul>               
+        </li>
+        {{ else }}
+        <a class="btn btn-primary navbar-btn" href="/login">Sign in</a>
+        <a class="btn btn-success navbar-btn" href="/register">Sign up</a>
+        {{ /if }}
+      </ul>
+    </div>
+  </div>
+</nav>

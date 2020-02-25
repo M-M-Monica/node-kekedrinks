@@ -1,5 +1,4 @@
 $(function(){
-	//初始化数据列表
 	function initList(){
     var page = 1;
     //showFood('/drinks/',page);
@@ -28,7 +27,10 @@ $(function(){
       success: function (data) {
         var html = '';
         for(var i = 0; i < data.length; i++){
-          html += '<li><p hidden>'+data[i]._id+'</p><div class="col-md-3"><div class="list"><img src='+data[i].img+'><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+'</p></div><button id="add">Add to cart</button></div></div></li>';
+          html += '<li><p hidden>'+data[i]._id+
+          '</p><div class="col-md-3"><div class="list"><img src='+data[i].img+
+          '><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+
+          '</p></div><button id="add">Add to cart</button></div></div></li>';
         }
         $('#food').html(html);
         $('#food').find('li').each(function(index,element){
@@ -70,6 +72,7 @@ $(function(){
   function goToCart(){
   	$('#rowList').css('display','none');
   	$('#cartList').css('display','block');
+    //$('#box').css('display','none');
     $.ajax({
       url: '/cart',
       type: 'get',
@@ -81,15 +84,18 @@ $(function(){
         	var num = parseInt(data[i].num);
         	var price = parseInt(data[i].price);
         	var sum = num*price;       	
-          html += '<li><p class="hide">'+data[i]._id+'</p><img src='+data[i].img+'><p>'+data[i].name+'</p><p>数量：'+num+'</p><p>单价：'+price+'</p><p>￥：'+sum+'</p><button>×</button></li>';
+          html += '<li><p class="hide">'+data[i]._id+'</p><img src='+data[i].img+'><p>'+data[i].name+'</p><p>数量：'+num+'</p><p>单价：'+price+'</p><p>￥：'+sum+'</p><a href="javascript:;"><img src="/img/trash.png" class="bt"/></a></li>';
           total += sum;
         }
-        html += '<li id="sum"><p>合计￥：'+total+'</p><a href="javascript:;" class="btn btn-danger navbar-btn">结算</a></li>'
+        html += '<li id="sum"><p>合计￥：'+total+'</p><button id="pay" class="btn btn-danger navbar-btn" data-toggle="modal" disabled="disabled" data-target="#myModal">结算</button></li>';
         $('#cartList>ul').html(html);
+        if (total>0) { 
+          $('#pay').removeAttr('disabled');
+        }
         $('#cartList>ul').find('li').each(function(index,element){
           var id = $(element).find('p:eq(0)').text();
-          var bt = $(element).find('button');
-          bt.click(function(){
+          var trash = $(element).find('a');
+          trash.click(function(){
 	        	deleteGood(id);
 	        }) 
         });
@@ -99,6 +105,7 @@ $(function(){
         }else{
         	$('.background').css('height','100%');
         }
+        submitOrder(total);
       }
     })
   }
@@ -112,6 +119,29 @@ $(function(){
 		      goToCart()
 		    }
       }
+    })
+  }
+  function submitOrder(total){
+    $('#pay').click(function(){
+      var form = $('#addGoodForm');
+      form.find('input[type=hidden]').val(total);
+      console.log(form.serialize());
+      form.find('input[type=button]').unbind('click').click(function(){
+        $.ajax({
+          url:'/pay',
+          type:'post',         
+          data:form.serialize(),
+          dataType:'json',
+          success:function(data){
+            if(data.flag == '1'){
+              $('#myModal').modal('hide')
+              $('#success .modal-body').text('你一共花了'+data.total+'元哦');
+              $('#myModal1').modal('show')
+              goToCart();
+            }
+          }
+        })
+      });
     })
   }
 	initList();

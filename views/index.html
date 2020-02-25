@@ -11,51 +11,19 @@
 <body>
 <div class="background">
   <div class="container">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <img src="/img/drink.png" class="img-d">
-          <a class="navbar-brand" href="javascript:;">KEKE Drinks</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="javascript:;" id="drinks">Drinks</a></li>
-            <li><a href="javascript:;" id="desert">Desert</a></li>
-            <li><a href="javascript:;">About us</a></li>
-            <li><a href="javascript:;">Card</a></li>
-          </ul>
-           <ul class="nav navbar-nav navbar-right">
-            
-                        
-            <li><a href="javascript:;" id="cart"><img src="/img/cart.png"></a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/my.png"><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-current-user">登录用户:188</li>
-                <li role="separator" class="divider"></li>         
-                <li><a href="/logout">退出</a></li>            
-              </ul>               
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    {{include './components/nav.html'}}
+    <img src="/img/shot.png">
     <section>
-      <div id="rowList" class="row">
-        <ul id="food"></ul>
-        <ul class="pagination pagination-sm">
-          <li><a href="javascript:;" id="p_1">&laquo;</a></li>
-          <li><a href="javascript:;" id="p_2">&raquo;</a></li>
-        </ul>
-      </div>
-      <div id="cartList">
-        <ul></ul>
-      </div>
+      {{include './components/good.html'}}
+      {{include './components/cart.html'}}
+      {{include './components/order.html'}}
+      {{include './components/success.html'}}
     </section>  
   </div>
 </div>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/order.js"></script>
 <script src="/js/index.js"></script>
 </body>
 </html>

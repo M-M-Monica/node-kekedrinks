@@ -17,9 +17,12 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  address: {
-    type: Array
-  },
+  order: [{
+    tel: Number,
+    address: String,
+    total: Number,
+    cart: Array
+  }],
   goods: [{
     name: String,
     img: String,

@@ -56,7 +56,6 @@ router.post('/register', function (req, res, next) {
       return res.send(`手机号或者密码已存在，请重试`)
     }
     body.password = md5(md5(body.password))
-    //console.log(body);
     new User(body).save(function (err, user) {
       if (err) {
         return next(err)
@@ -76,9 +75,9 @@ router.get('/logout', function (req, res) {
 })
 
 router.get('/:food/:page', function (req, res) {
-  let page = req.params.page;
-  let skip = (page-1)*4;
-  let food = [req.params.food];
+  let page = req.params.page
+  let skip = (page-1)*4
+  let food = [req.params.food]
   Food.find({category: food}).skip(skip).limit(4)
   .exec((err,result)=>{
     if(err){
@@ -92,45 +91,41 @@ router.get('/:food/:page', function (req, res) {
 router.post('/cart', (req, res)=> {
   let info = req.body
   let id = Object.keys(info)[0]
-  //req.session.user.tel
-  User.findOne({tel: '18813738689'}, function(err, result){
+  User.findOne({tel: req.session.user.tel}, function(err, result){
     if(err){
       console.log(err);
     }else{
-      //if (result) {
-        let goodsItem = '';
-        result.goods.forEach((item)=>{
-          if (item._id == id) {
-            goodsItem = item;
-            item.num++;
-          }
-        });
-        if (goodsItem) {
-          result.save();
-        }else{
-          Food.findOne({_id: id}, function(err, doc){
-            if(err){
-              console.log(err);
-            }else{
-              if (doc) {
-                //doc.num = 1;
-                result.goods.push(doc);
-                result.save();
-              }
-              res.status(200).json({
-                err_code: 0,
-                message: 'OK'
-              })
-            }
-          })
+      let goodsItem = '';
+      result.goods.forEach((item)=>{
+        if (item._id == id) {
+          goodsItem = item;
+          item.num++;
         }
-      //}
+      });
+      if (goodsItem) {
+        result.save();
+      }else{
+        Food.findOne({_id: id}, function(err, doc){
+          if(err){
+            console.log(err);
+          }else{
+            if (doc) {
+              result.goods.push(doc);
+              result.save();
+            }
+            res.status(200).json({
+              err_code: 0,
+              message: 'OK'
+            })
+          }
+        })
+      }
     }
   })
 })
 
 router.get('/cart', (req, res)=> {
-  User.findOne({tel: '18813738689'}, function(err, result){
+  User.findOne({tel: req.session.user.tel}, function(err, result){
     if(err){
       console.log(err);
     }else{
@@ -142,9 +137,8 @@ router.get('/cart', (req, res)=> {
 router.delete('/cart/:id', (req, res)=> {
   let id = req.params.id;
   let data = [id];
-  //console.log(data)
   User.updateOne({
-    tel: '18813738689'
+    tel: req.session.user.tel
   }, {
     $pull:{
       'goods':{
@@ -160,4 +154,41 @@ router.delete('/cart/:id', (req, res)=> {
   })
 })
 
+router.post('/pay', (req, res)=> {
+  let info = req.body;
+  User.findOne({tel: req.session.user.tel}, function(err, result){
+    if(err){
+      console.log(err);
+    }else{
+      let cartList = [];
+      result.goods.forEach((item)=>{
+        cartList.push(item);
+      })
+      let orderList = {
+        tel: info.tel,
+        address: info.address,
+        total: info.total,
+        cart: cartList
+      }
+      result.order.push(orderList);
+      result.goods = [];
+      result.save(function(err, doc){
+        if(err){
+          console.log(err);
+        }else{
+          res.send({flag:1,total: orderList.total});
+        }
+      });
+    }
+  })
+})
+// router.get('/user', (req, res)=> {
+//   User.findOne({tel: '18813738689'}, function(err, result){
+//       if(err){
+//         console.log(err);
+//       }else{
+//         res.send(result);
+//       }
+//   })
+// })
 module.exports = router
