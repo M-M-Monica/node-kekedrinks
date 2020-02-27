@@ -1,25 +1,24 @@
 $(function(){
 	function initList(){
-    var page = 1;
-    //showFood('/drinks/',page);
-    //$('#rowList').css('display','none');
-    //$('#cartList').css('display','none');
-    $('#drinks').unbind('click').click(function(){
-      showFood('/drinks/',page); 
-      clickPage('/drinks/',page);        
+    var drinks = $('#drinks');
+    var desert = $('#desert');
+    var cart = $('#cart');
+    drinks.click(function(){
+      showFood('/drinks/',1); 
+      clickPage('/drinks/',1);        
     });
-    $('#desert').unbind('click').click(function(){
-      showFood('/desert/',page);  
-      clickPage('/desert/',page);           
+    desert.click(function(){
+      showFood('/desert/',1);  
+      clickPage('/desert/',1);           
     });
-    $('#cart').unbind('click').click(function(){
+    cart.click(function(){
       goToCart();
     })
 	}
 	function showFood(url,page){
-		$('#cartList').css('display','none');
-    $('#rowList').css('display','block');
+		$('#cartList').hide();
     $('.background').css('height','100%');
+    $('.container>img').hide();
     $.ajax({
       url: url + page,
       type: 'get',
@@ -30,21 +29,27 @@ $(function(){
           html += '<li><p hidden>'+data[i]._id+
           '</p><div class="col-md-3"><div class="list"><img src='+data[i].img+
           '><div class="detail"><p>'+data[i].name+'</p><p>￥：'+data[i].price+
-          '</p></div><button id="add">Add to cart</button></div></div></li>';
+          '</p></div><img src="/img/add.png" id="add"></div></div></li>';
         }
+        $('#rowList').show();
         $('#food').html(html);
         $('#food').find('li').each(function(index,element){
-          var bt = $(element).find('button');
-          var id = $(element).find('p:eq(0)').text();
+          var bt = $(element).find('img:eq(1)');
+          var id = $(element).find('p:eq(0)').text();     
           bt.click(function(){
             addToCart(id);
+            bt.before('<div class="ball">+1</div>');
+            bt.prev().animate({top:'260px'},500);
+            setTimeout(function(){
+              bt.prev().hide();
+            },500);
           }); 
         });
       }
     })
   }
   function clickPage(url,page){
-  	//$('#cartList').css('display','none');
+    var page = 1;
     $('#p_1').unbind('click').click(function(){
       if (page>1) {
         page--;
@@ -65,14 +70,14 @@ $(function(){
       data: id,
       dataType: 'json',
       success: function () {
-        console.log('success')
+        //ball.hide();
       }
     })
   }
   function goToCart(){
-  	$('#rowList').css('display','none');
-  	$('#cartList').css('display','block');
-    //$('#box').css('display','none');
+  	$('#rowList').hide();
+  	$('#cartList').fadeIn(1000);
+    $('.container>img').hide();
     $.ajax({
       url: '/cart',
       type: 'get',
@@ -84,12 +89,16 @@ $(function(){
         	var num = parseInt(data[i].num);
         	var price = parseInt(data[i].price);
         	var sum = num*price;       	
-          html += '<li><p class="hide">'+data[i]._id+'</p><img src='+data[i].img+'><p>'+data[i].name+'</p><p>数量：'+num+'</p><p>单价：'+price+'</p><p>￥：'+sum+'</p><a href="javascript:;"><img src="/img/trash.png" class="bt"/></a></li>';
+          html += '<li><p class="hide">'+data[i]._id+
+          '</p><img src='+data[i].img+'><p>'+data[i].name+
+          '</p><p>数量：'+num+'</p><p>单价：'+price+'</p><p>￥：'+sum+
+          '</p><a href="javascript:;"><img src="/img/trash.png" class="bt"/></a></li>';
           total += sum;
         }
-        html += '<li id="sum"><p>合计￥：'+total+'</p><button id="pay" class="btn btn-danger navbar-btn" data-toggle="modal" disabled="disabled" data-target="#myModal">结算</button></li>';
+        html += '<li id="sum"><p>合计￥：'+total+
+        '</p><button id="pay" class="btn btn-danger navbar-btn" data-toggle="modal" disabled="disabled" data-target="#myModal">结算</button></li>';
         $('#cartList>ul').html(html);
-        if (total>0) { 
+        if (total>0) {
           $('#pay').removeAttr('disabled');
         }
         $('#cartList>ul').find('li').each(function(index,element){
@@ -98,12 +107,15 @@ $(function(){
           trash.click(function(){
 	        	deleteGood(id);
 	        }) 
+          //<div class="num">+</div>
+          //<div class="num">-</div>
         });
         var cart_height = $('#cartList').height();
-        if (cart_height>474) {
-        	$('.background').css('height',cart_height+140+'px');
+        var back_height = $(window).height()-100;
+        if (cart_height > back_height) {
+          $('.background').css('height',cart_height+130+'px');
         }else{
-        	$('.background').css('height','100%');
+          $('.background').css('height','100%');
         }
         submitOrder(total);
       }
@@ -125,7 +137,6 @@ $(function(){
     $('#pay').click(function(){
       var form = $('#addGoodForm');
       form.find('input[type=hidden]').val(total);
-      console.log(form.serialize());
       form.find('input[type=button]').unbind('click').click(function(){
         $.ajax({
           url:'/pay',
