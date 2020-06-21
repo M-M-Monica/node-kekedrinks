@@ -182,13 +182,4 @@ router.post('/pay', (req, res)=> {
     }
   })
 })
-// router.get('/user', (req, res)=> {
-//   User.findOne({tel: '18813738689'}, function(err, result){
-//       if(err){
-//         console.log(err);
-//       }else{
-//         res.send(result);
-//       }
-//   })
-// })
 module.exports = router

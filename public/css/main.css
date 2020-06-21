@@ -4,7 +4,7 @@
   height: 100%;
   position: absolute;
   padding: 10px;
-  background: url(../img/bg2.jpg) center no-repeat;
+  background: url(../img/bg.jpg) center no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 }
@@ -95,15 +95,17 @@ section{
 #rowList .ball{
   width: 15px;
   height: 15px;
-  font-size: 2px;
+  display: none;
   position: absolute;
-  left: 50%;
   top: 50%;
   margin-left: -5px;
+  font-size: 2px;
   background-color: #f1998d;
   border-radius: 50%;
 }
-
+#rowList .ball-show{
+  display: block;
+}
 /*购物车列表*/
 #cartList{
   display: none;
@@ -130,15 +132,6 @@ section{
 #cartList .hide{
   display: none;
 }
-/*#cartList ul li .num{
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  border: 1px solid black;
-}*/
 #cartList ul li p{
   width: 140px;
   position: relative;

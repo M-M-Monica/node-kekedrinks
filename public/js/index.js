@@ -15,6 +15,7 @@ $(function(){
       goToCart();
     })
 	}
+  initList();
 	function showFood(url,page){
 		$('#cartList').hide();
     $('.background').css('height','100%');
@@ -35,13 +36,15 @@ $(function(){
         $('#food').html(html);
         $('#food').find('li').each(function(index,element){
           var bt = $(element).find('img:eq(1)');
-          var id = $(element).find('p:eq(0)').text();     
-          bt.click(function(){
+          var id = $(element).find('p:eq(0)').text();
+          var ball = $('.ball')
+          bt.click(function(e){
             addToCart(id);
-            bt.before('<div class="ball">+1</div>');
-            bt.prev().animate({top:'260px'},500);
+            ball.addClass('ball-show');
+            $('.ball-show').css('left', e.clientX - 30 + 'px');
+            ball.stop().css('top', '50%').animate({top:'260px'},500);
             setTimeout(function(){
-              bt.prev().hide();
+              ball.removeClass('ball-show');
             },500);
           }); 
         });
@@ -106,9 +109,7 @@ $(function(){
           var trash = $(element).find('a');
           trash.click(function(){
 	        	deleteGood(id);
-	        }) 
-          //<div class="num">+</div>
-          //<div class="num">-</div>
+	        })
         });
         var cart_height = $('#cartList').height();
         var back_height = $(window).height()-100;
@@ -155,5 +156,4 @@ $(function(){
       });
     })
   }
-	initList();
 });	
