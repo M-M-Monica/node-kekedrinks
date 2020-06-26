@@ -56,7 +56,6 @@ const foodSchema = new Schema({
 
 const User = mongoose.model('User', userSchema);
 const Food = mongoose.model('Food', foodSchema);
-//const Good = mongoose.model('Good', goodSchema);
 
 // const foodList = [
 //   {
@@ -110,49 +109,49 @@ const Food = mongoose.model('Food', foodSchema);
 //   {
 //     "name": "芝士蛋糕",
 //     "img":"/img/s1.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 18
 //   },
 //   {
 //     "name": "蜂蜜冰淇淋千层",
 //     "img":"/img/s2.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 20
 //   },
 //   {
 //     "name": "草莓冰淇淋蛋糕",
 //     "img":"/img/s3.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 17
 //   },
 //   {
 //     "name": "草莓泡芙",
 //     "img":"/img/s4.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 8
 //   },
 //   {
 //     "name": "草莓巧克力塔",
 //     "img":"/img/s5.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 12
 //   },
 //   {
 //     "name": "蓝莓牛奶蛋糕",
 //     "img":"/img/s6.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 15
 //   },
 //   {
 //     "name": "覆盆子派",
 //     "img":"/img/s7.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 22
 //   },
 //   {
 //     "name": "抹茶草莓卷",
 //     "img":"/img/s8.png",
-//     "category": "desert",
+//     "category": "dessert",
 //     "price": 10
 //   }
 // ]

@@ -1,15 +1,15 @@
 $(function(){
 	function initList(){
     var drinks = $('#drinks');
-    var desert = $('#desert');
+    var dessert = $('#dessert');
     var cart = $('#cart');
     drinks.click(function(){
       showFood('/drinks/',1); 
       clickPage('/drinks/',1);        
     });
-    desert.click(function(){
-      showFood('/desert/',1);  
-      clickPage('/desert/',1);           
+    dessert.click(function(){
+      showFood('/dessert/',1);  
+      clickPage('/dessert/',1);           
     });
     cart.click(function(){
       goToCart();
@@ -41,7 +41,7 @@ $(function(){
           bt.click(function(e){
             addToCart(id);
             ball.addClass('ball-show');
-            $('.ball-show').css('left', e.clientX - 30 + 'px');
+            $('.ball-show').css('left', e.clientX - 15 + 'px');
             ball.stop().css('top', '50%').animate({top:'260px'},500);
             setTimeout(function(){
               ball.removeClass('ball-show');
